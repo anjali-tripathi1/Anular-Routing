@@ -1,0 +1,26 @@
+import { inject, Injectable } from "@angular/core";
+import { AuthService } from "./auth.service";
+import { Router } from "@angular/router";
+import { CourseService } from "./course";
+
+
+export const CanActivate = () => {
+     const authService = inject(AuthService)
+     const router = inject(Router)
+
+     if(authService.IsAuthenticated()){
+        return true
+     } else {
+        router.navigate(['/Login'])
+        return false
+     }
+}
+
+export const CanActivateChild = () => {
+    return CanActivate();
+}
+
+export const resolve = () => {
+   const courseService:CourseService = inject(CourseService)
+   return courseService.getAllcourses()
+}
